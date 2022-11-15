@@ -28,20 +28,22 @@ class ResponseRepository extends Repository{
         ]);
     }
 
-    public deleteResponse(int $idResponse){
+    public function deleteResponse(int $idResponse){
         $sql = $this->connection->prepare("DELETE FROM topic_response WHERE response_id = :idResponse");
         $sql->execute([
             'idResponse' => $idResponse
         ]);
     }
 
-    public function getResponse() : Response {
-        $sql = $this->connection->prepare("SELECT * FROM topic_response limit 20");
+    public function getResponse(int $idTopic) : array {
+        $sql = $this->connection->prepare("SELECT * FROM topic_response WHERE topic_id = " . $idTopic . " limit 20");
         $sql->execute();
-
-        $array = $sql->fetch();
-
-        return new Response($array['id'], $array['topic_id'], $array['owner_id'], $array['response']);
+        $array = $sql->fetchAll();
+        $tableResponse = [];
+        foreach ($array as $response) {
+            $tableResponse[] = new Response($response['response_id'], $response['topic_id'], $response['owner_id'], $response['response']);
+        }
+        return $tableResponse;
     }
 }
 

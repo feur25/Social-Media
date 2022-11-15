@@ -55,7 +55,6 @@ class TopicRepository extends Repository{
         foreach ($array as $task) {
             $tableTask[] = new Topic($task['topic_id'], $task['owner_id'], $task['title'], $task['subtitle']);
         }
-
         return $tableTask;
     }
 }

@@ -26,6 +26,11 @@ if(!(isset($_GET['idTopic']))){
         <p><?=$id->ownerId ?></p>
     <?php
     }
+    foreach($responses as $response){
+    ?>
+        <p><?=$response->text ?></p>
+    <?php
+    }
 }   
 
 // $page_contents = ob_get_clean();
