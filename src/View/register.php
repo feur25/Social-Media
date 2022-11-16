@@ -6,10 +6,10 @@ ob_start();
 
 <form class="login-form" method="post" action="">
     
-    <input type="email" id="email" name="email"/>
-    <input type="text" id="username" name="username"/>
-    <input type="password" id="password" name="password">
-    <input type="password" id="password-confirm" name="password-confirm">
+    <input type="email" id="email" name="email" placeholder="email"/>
+    <input type="text" id="username" name="username" placeholder="username"/>
+    <input type="password" id="password" name="password" placeholder="password">
+    <input type="password" id="password-confirm" name="password-confirm" placeholder="password-confirm">
     <button id="envoyer">Login</button>
     
 </form>
@@ -20,6 +20,6 @@ ob_start();
 <?php
 
 $page_contents = ob_get_clean();
-require(__DIR__.'/page-layout.php');
+require(__DIR__.'/Template/page-layout.php');
 
 ?>

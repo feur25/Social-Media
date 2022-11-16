@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__.'/src/Controller/loginController.php';
+require_once __DIR__.'/src/Controller/userController.php';
 
-$controller = new LoginController();
-$controller->index();
+$controller = new UserController();
+$controller->login_page();
 
 ?>

@@ -1,25 +1,32 @@
 <?php
 
 require_once(__DIR__.'/repository.php');
+require_once(__DIR__.'/../../util/encrypt.php');
 
 class User {
     public int $id;
     public string $username;
     public string $email;
     public string $password;
+    public string $publicKey;
+    public string $date;
 
-    public function __construct(int $id, string $username, string $email, string $password) {
+    public function __construct(int $id, string $username, string $email, string $password, string $publicKey, string $date = "") {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+        $this->publicKey = $publicKey;
+        $this->date = $date;
     }
 }
 
 class UserRepository extends Repository{
 
     public function login(string $identifier, string $password) : ?User {
-        return $this->getUserByIdentifierAndPassword( $identifier, hash("sha256", $password) );
+        $get_user = $this->getUserByIdentifierAndPassword( $identifier, hash("sha256", $password) );
+        $get_user->password = $password;
+        return $get_user;
     }
 
     public function register(string $username, string $email, string $password) : bool {
@@ -40,17 +47,18 @@ class UserRepository extends Repository{
 
 
     public function insertUser(string $username, string $email, string $password) {
-        $sql = $this->connection->prepare( "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)" );
+        $sql = $this->connection->prepare( "INSERT INTO user (username, email, password, public_key) VALUES (:username, :email, :password, :key)" );
         $sql->execute( [
             'username' => $username,
             'email' => $email,
             'password' => $password,
+            'key' => createKeyUser()
         ] );
     }
 
     public function getUserByUsernameOrEmail(string $username, string $email) : ?User {
         
-        $sql = $this->connection->prepare("SELECT * FROM users WHERE (username = :username OR email = :email) ");
+        $sql = $this->connection->prepare("SELECT * FROM user WHERE (username = :username OR email = :email) ");
         $sql->execute( [
             'username' => $username,
             'email' => $email,
@@ -62,12 +70,12 @@ class UserRepository extends Repository{
         }
 
         $array = $sql->fetch();
-        return new User($array['id'], $array['username'], $array['email'], $array['password']);
+        return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
     }
 
     public function getUserById(int $id) : ?User {
         
-        $sql = $this->connection->prepare("SELECT * FROM users WHERE id = :id");
+        $sql = $this->connection->prepare("SELECT * FROM user WHERE id = :id");
         $sql->execute( [
             'id' => $id,
         ] );
@@ -78,12 +86,12 @@ class UserRepository extends Repository{
         }
 
         $array = $sql->fetch();
-        return new User($array['id'], $array['username'], $array['email'], $array['password']);
+        return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
     }
 
     public function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {
 
-        $sql = $this->connection->prepare("SELECT * FROM users WHERE (username = :identifier OR email = :identifier) AND password = :password");
+        $sql = $this->connection->prepare("SELECT * FROM user WHERE (username = :identifier OR email = :identifier) AND password = :password");
         $sql->execute( [
             'identifier' => $identifier,
             'password' => $password
@@ -95,7 +103,7 @@ class UserRepository extends Repository{
         }
 
         $array = $sql->fetch();
-        return new User($array['id'], $array['username'], $array['email'], $array['password']);
+        return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
     }
 }
 

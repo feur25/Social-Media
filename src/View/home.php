@@ -46,6 +46,6 @@ ob_start();
 <?php
 
 $page_contents = ob_get_clean();
-require(__DIR__.'/page-layout.php');
+require(__DIR__.'/Template/page-layout.php');
 
 ?>
