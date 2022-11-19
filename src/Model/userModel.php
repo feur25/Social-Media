@@ -73,6 +73,24 @@ class UserRepository extends Repository{
         return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
     }
 
+    public function getUser(int $nameFriend) : array{
+        $sql = $this->connection->prepare("SELECT username FROM user WHERE id = :id");
+        $sql->execute( [
+            'id' => $nameFriend,
+        ] );
+    
+
+        $array = $sql->fetchAll();
+        $userArray = [];
+        foreach($array as $arrayUser){
+            $userArray[] = $arrayUser['username'];
+        }
+        if ($sql->rowCount() == 0) {
+            $userArray[] = null;
+        }
+        return $userArray;
+    }
+    
     public function getUserById(int $id) : ?User {
         
         $sql = $this->connection->prepare("SELECT * FROM user WHERE id = :id");

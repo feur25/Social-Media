@@ -16,11 +16,10 @@ class TopicController {
     }
 
     public function create_page() {
-        if ( isset($_SESSION['user']) ) {
-            
-            $user = $_SESSION['user'];
+        if (isset($_SESSION['userId']) ) {
+            $user = $_SESSION['userId'];
             if(isset($_GET['title']) && isset($_GET['content'])){
-                $newTopic = $this->topicRepository->insertTopic($user->id, $_GET['title'], $_GET['content']);
+                $newTopic = $this->topicRepository->insertTopic($user, $_GET['title'], $_GET['content']);
             }
             
             require(__DIR__.'/../View/topic.php');

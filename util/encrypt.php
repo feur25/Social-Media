@@ -29,8 +29,8 @@ class Duplicate extends Repository {
         FROM users
         GROUP BY public_key
         HAVING COUNT(public_key) > 1");
-        $check->execute();
-        if ($check > 1){
+        $checkOut->execute();
+        if ($checkOut->rowCount() > 1){
             return false;
         }
         return true;
