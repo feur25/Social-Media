@@ -1,4 +1,4 @@
-<div id="received-friend-requests" style="background-color:green">
+<div id="received-friend-requests">
 
     <h3>Received Friend Requests</h3>
     

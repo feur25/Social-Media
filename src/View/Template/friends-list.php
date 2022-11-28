@@ -1,10 +1,10 @@
-<div id="friends-list"  style="background-color:blue">
+<div id="friends-list">
     
 <h3>Friends</h3>
 
 <?php 
 
-    if (!isset($_SESSION['userId'])) {
+    if ( !isset($_SESSION['userId']) ) {
         header('Location: login');
     }
 
