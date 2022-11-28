@@ -1,4 +1,6 @@
 <?php
+
+
 require_once(__DIR__.'/../src/Model/repository.php');
 
 function generateKey() : string {
@@ -36,5 +38,6 @@ class Duplicate extends Repository {
         return true;
     } 
 }
+
 
 ?>

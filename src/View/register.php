@@ -1,16 +1,20 @@
 <?php
+
+require_once __DIR__."/../../util/translate.php";
+
 ob_start();
+
 ?>
 
-<p class="header_titre">Créer un Compte</p>
+<p class="header_titre"><?= translate("register") ?></p>
 
 <form class="login-form" method="post" action="">
     
-    <input type="email" id="email" name="email" placeholder="email"/>
-    <input type="text" id="username" name="username" placeholder="username"/>
-    <input type="password" id="password" name="password" placeholder="password">
-    <input type="password" id="password-confirm" name="password-confirm" placeholder="password-confirm">
-    <button id="envoyer">Login</button>
+    <input type="email" id="email" name="email" placeholder="<?= translate("email") ?>"/>
+    <input type="text" id="username" name="username" placeholder="<?= translate("username") ?>"/>
+    <input type="password" id="password" name="password" placeholder="<?= translate("password") ?>">
+    <input type="password" id="password-confirm" name="password-confirm" placeholder="<?= translate("confirm_password") ?>">
+    <button id="envoyer"><?= translate("confirm") ?></button>
     
 </form>
 

@@ -1,7 +1,13 @@
+<?php
+
+require_once __DIR__."/../../../util/translate.php";
+
+?>
+
 <html>
 
     <head>
-        <link rel="stylesheet" href="public/CSS/style.css"/> 
+        <link rel="stylesheet" href="/public/CSS/style.css"/> 
     </head>
 
     <body>
@@ -14,7 +20,7 @@
 
                     ?>  
                         <a href="/logout.php">
-                            Se Déconnecter
+                            <?= translate("logout") ?>
                         </a>
                     <?php
 
@@ -22,11 +28,12 @@
 
                     ?>  
                         <a href="/login.php">
-                            Se Connecter
+                            <?= translate("login") ?>
                         </a>
                     <?php
                 }
             ?>
+            
         </div>
         <?= $page_contents; ?>
     </body>

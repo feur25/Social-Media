@@ -1,14 +1,15 @@
-<div class="profile-preview">
-    <?php
+<?php
 
-        require_once(__DIR__.'/../../Model/userModel.php');
+require_once(__DIR__.'/../../Model/userModel.php');
 
-        if (isset($user)) {
-            ?>
-                <h3>
-                    <?= $user->username; ?>
-                </h3>
-            <?php
-        }
+if (isset($user)) {
     ?>
-</div>
+        <div class="user-preview">
+            <h3>
+                <?= $user->username; ?>
+            </h3>
+        </div>
+    <?php
+}
+
+?>

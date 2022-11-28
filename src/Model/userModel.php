@@ -2,6 +2,7 @@
 
 require_once(__DIR__.'/repository.php');
 require_once(__DIR__.'/../../util/encrypt.php');
+require_once(__DIR__.'/../../util/mailSender.php');
 
 class User {
     public int $id;
@@ -22,29 +23,6 @@ class User {
 }
 
 class UserRepository extends Repository{
-
-    public function login(string $identifier, string $password) : ?User {
-        $get_user = $this->getUserByIdentifierAndPassword( $identifier, hash("sha256", $password) );
-        $get_user->password = $password;
-        return $get_user;
-    }
-
-    public function register(string $username, string $email, string $password) : bool {
-        $user = $this->getUserByUsernameOrEmail($username, $email);
-
-        if($user == null) {
-
-            $this->insertUser($username, $email, hash("sha256", $password));
-            return true; 
-
-        } else {
-            
-            return false;
-        }
-
-
-    }
-
 
     public function insertUser(string $username, string $email, string $password) {
         $sql = $this->connection->prepare( "INSERT INTO user (username, email, password, public_key) VALUES (:username, :email, :password, :key)" );
@@ -105,6 +83,21 @@ class UserRepository extends Repository{
 
         $array = $sql->fetch();
         return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
+    }
+
+    public function getUserByIdentifier(string $identifier) : ?User {
+            $sql = $this->connection->prepare("SELECT * FROM user WHERE (username = :identifier OR email = :identifier)");
+            $sql->execute( [
+                'identifier' => $identifier,
+            ] );
+            
+    
+            if ($sql->rowCount() == 0) {
+                return null;
+            }
+    
+            $array = $sql->fetch();
+            return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
     }
 
     public function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {

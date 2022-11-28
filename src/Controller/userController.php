@@ -4,37 +4,24 @@ session_start();
 
 require_once(__DIR__.'/../Model/userModel.php');
 
-class UserController {
+class UserController extends UserRepository {
 
-    private UserRepository $userRepository;
-
-    public function __construct() {
-        $this->userRepository = new UserRepository();
-    }
-
-    private function login(string $identifier, string $password) : ?User {
-        $get_user = $this->userRepository->getUserByIdentifierAndPassword( $identifier, hash("sha256", $password) );
-        echo $identifier . " " . hash("sha256", $password);
-        var_dump($get_user);
-        
+    public function login(string $identifier, string $password) : ?User {
+        $get_user = $this->getUserByIdentifierAndPassword( $identifier, hash("sha256", $password) );
+        $get_user->password = $password;
         return $get_user;
     }
 
-    private function register(string $username, string $email, string $password) : bool {
-        $user = $this->userRepository->getUserByUsernameOrEmail($username, $email);
+    public function register(string $username, string $email, string $password) : bool {
+        $user = $this->getUserByUsernameOrEmail($username, $email);
 
         if($user == null) {
-
-            $this->userRepository->insertUser($username, $email, hash("sha256", $password));
-            return true; 
-
-        } else {
-            
-            return false;
+            $this->insertUser($username, $email, hash("sha256", $password));
         }
 
-
+        return $user == null; 
     }
+
 
     public function emailCheck(string $email): bool {
         return $email != "" && filter_var($email, FILTER_VALIDATE_EMAIL);

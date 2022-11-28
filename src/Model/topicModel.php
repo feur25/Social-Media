@@ -1,16 +1,17 @@
 <?php
 
 require_once(__DIR__.'/repository.php');
+require_once(__DIR__.'/userModel.php');
 
 class Topic {
     public int $id;
-    public int $ownerId;
+    public User $owner;
     public string $title;
     public string $content;
 
-    public function __construct(int $id, int $ownerId, string $title, string $content) {
+    public function __construct(int $id, User $owner, string $title, string $content) {
         $this->id = $id;
-        $this->ownerId = $ownerId;
+        $this->owner = $owner;
         $this->title = $title;
         $this->content = $content;
     }
@@ -40,9 +41,11 @@ class TopicRepository extends Repository{
             'id'=> $id
         ] );
 
-        $array = $sql->fetch();
+        $task = $sql->fetch();
 
-        return new Topic($array['topic_id'], $array['owner_id'], $array['title'], $array['content']);
+        $userRepo = new UserRepository();
+
+        return new Topic($task['topic_id'], $userRepo->getUserById($task['owner_id']), $task['title'], $task['content']);
     }
     
     public function getTopicsByOwnerId(int $id) : array {
@@ -51,8 +54,11 @@ class TopicRepository extends Repository{
             'id'=> $id
         ]);
         
-        $array = $sql->fetch();
-        return new Topic($array['topic_id'], $array['owner_id'], $array['title'], $array['content']);
+        $task = $sql->fetch();
+
+        $userRepo = new UserRepository();
+
+        return new Topic($task['topic_id'], $userRepo->getUserById($task['owner_id']), $task['title'], $task['content']);
     }
 
     public function getTopics() : array {
@@ -61,10 +67,13 @@ class TopicRepository extends Repository{
         if ($sql->rowCount() == 0) {
             return null;
         }
-        $array = $sql->fetchAll(); 
+        $array = $sql->fetchAll();
+
+        $userRepo = new UserRepository();
+
         $topicArray = [];
         foreach ($array as $task) {
-            $topicArray[] = new Topic($task['topic_id'], $task['owner_id'], $task['title'], $task['content']);
+            $topicArray[] = new Topic($task['topic_id'], $userRepo->getUserById($task['owner_id']), $task['title'], $task['content']);
         }
         return $topicArray;
     }

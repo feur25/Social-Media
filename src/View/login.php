@@ -1,14 +1,18 @@
 <?php
+
+require_once __DIR__."/../../util/translate.php";
+
 ob_start();
+
 ?>
 
-<p class="header_titre">Se Connecter</p>
+<p class="header_titre"><?= translate("login") ?></p>
 
 <form class="login-form" method="get" action="">
     
-    <input type="text" id="id" name="id"/>
-    <input type="password" id="password" name="password">
-    <button id="envoyer">Login</button>
+    <input type="text" id="id" name="id" placeholder="<?= translate("identifier") ?>"/>
+    <input type="password" id="password" name="password" placeholder="<?= translate("password") ?>">
+    <button id="envoyer"><?= translate("confirm") ?></button>
     
 </form>
 

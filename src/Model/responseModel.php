@@ -1,24 +1,26 @@
 <?php
 
 require_once(__DIR__.'/repository.php');
+require_once(__DIR__.'/topicModel.php');
+require_once(__DIR__.'/userModel.php');
 
 class Response {
     public int $id;
-    public int $topicId;
-    public int $ownerId;
+    public Topic $topic;
+    public User $owner;
     public string $content;
 
-    public function __construct(int $id, int $topicId, int $ownerId, string $content) {
+    public function __construct(int $id, Topic $topic, User $owner, string $content) {
         $this->id = $id;
-        $this->topicId = $topicId;
-        $this->ownerId = $ownerId;
+        $this->topic = $topic;
+        $this->owner = $owner;
         $this->content = $content;
     }
 }
 
 class ResponseRepository extends Repository{
 
-    public function insertResponse(int $topicId, int $ownerId, int $responseId, string $content){
+    public function insertResponse(int $topicId, int $ownerId, string $content){
         $sql = $this->connection->prepare("INSERT INTO topic_response (response_id, owner_id, content) VALUES (:topicId , :ownerId, :content)");
         $sql->execute([
             'topicId' => $topicId,
@@ -40,9 +42,12 @@ class ResponseRepository extends Repository{
             'id'=> $id
         ] );
 
-        $array = $sql->fetch();
+        $task = $sql->fetch();
+
+        $topicRepo = new TopicRepository();
+        $userRepo = new UserRepository();
         
-        return new Response($array['response_id'] ,$array['topic_id'], $array['owner_id'], $array['content']);
+        return new Response($task['response_id'], $topicRepo->getTopicById($task['topic_id']), $userRepo->getUserById($task['owner_id']), $task['content']);
     }
     
     public function getResponsesByOwnerId(int $id) : array {
@@ -68,9 +73,12 @@ class ResponseRepository extends Repository{
         
         $array = $sql->fetchAll();
 
+        $topicRepo = new TopicRepository();
+        $userRepo = new UserRepository();
+
         $responseArray = [];
         foreach ($array as $task) {
-            $responseArray[] = new Response($task['response_id'],$task['topic_id'], $task['owner_id'], $task['content']);
+            $responseArray[] = new Response($task['response_id'], $topicRepo->getTopicById($task['topic_id']), $userRepo->getUserById($task['owner_id']), $task['content']);
         }
         return $responseArray;
     }
@@ -83,9 +91,13 @@ class ResponseRepository extends Repository{
         }
 
         $array = $sql->fetchAll();
+
+        $topicRepo = new TopicRepository();
+        $userRepo = new UserRepository();
+
         $responseArray= [];
         foreach ($array as $task) {
-            $responseArray[] = new Response($task['response_id'], $task['topic_id'], $task['owner_id'], $task['content']);
+            $responseArray[] = new Response($task['response_id'], $topicRepo->getTopicById($task['topic_id']), $userRepo->getUserById($task['owner_id']), $task['content']);
         }
         return $responseArray;
     }

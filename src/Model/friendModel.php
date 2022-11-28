@@ -1,74 +1,108 @@
 <?php
-require_once(__DIR__.'/repository.php');
-class Friend{
-    public int $first_user_id;
-    public int $state;
-    public int $second_user_id;
 
-    public function __construct(int $firstId, int $state, int $secondId){
-        $this->first_user_id = $firstId;
+require_once(__DIR__.'/userModel.php');
+
+class Friend{
+    public int $id;
+    public User $sender;
+    public User $receiver;
+    public int $state;
+
+    public function __construct(int $id, User $sender, User $receiver, int $state){
+        $this->id = $id;
+        $this->sender = $sender;
+        $this->receiver = $receiver;
         $this->state = $state;
-        $this->second_user_id = $secondId;
     }
- }
- class FriendRepository extends Repository{
-    public function checkIfExistInDB(int $userId, int $friendId) : bool{
-        $sql =  $this->connection->prepare("SELECT * FROM friend WHERE first_user_id = " . $userId . " AND second_user_id = " . $friendId . " OR first_user_id = " . $friendId . " AND second_user_id = " . $userId);
-        $sql->execute();
-        if ($sql->rowCount() > 1) {
-            return false;
+}
+
+class FriendRepository extends UserRepository {
+
+
+    public function friendRequestExists(int $userId, int $friendId) : bool{
+        $sql =  $this->connection->prepare("SELECT * FROM friend WHERE (sender_id = :userId AND receiver_id = :friendId) OR (sender_id = :friendId AND receiver_id = :userId)");
+        $sql->execute( [
+            'userId' => $userId,
+            'friendId' => $friendId
+        ] );
+
+        return $sql->rowCount() > 0;
+    }
+
+    public function sendRequest(int $senderId, int $receiverId){
+        if ($this->friendRequestExists($senderId, $receiverId)) {
+            return;
         }
-        return true;
+        
+        $sql =  $this->connection->prepare("INSERT INTO friend (sender_id, receiver_id, state) VALUES (:senderId, :receiverId, 0)");
+        $sql->execute([
+            'senderId' => $senderId,
+            'receiverId' => $receiverId
+        ]);
+
+        $message = 'sent request : ' . $senderId . ' to ' . $receiverId;
+        echo "<script>console.log('" . $message . "');</script>";
+            
     }
-    public function addResquest(int $userId, int $friendId){
-        if ($this->checkIfExistInDB($userId, $friendId)){
-            $sql =  $this->connection->prepare("INSERT INTO friend (first_user_id, state ,  second_user_id) VALUES (:userId , :state, :friendId)");
-            $sql->execute([
-                'userId' => $userId,
-                'state' => 1,
-                'friendId' => $friendId
-            ]);
-        }else{
-            echo "Tu as déja envoyer une invitation a cette personne ";
+
+    public function getFriends(int $userId) : array{
+        $sql = $this->connection->prepare("SELECT * FROM friend WHERE (sender_id = :userId OR receiver_id = :userId) AND state = 1 ");
+        $sql->execute( [
+            'userId' => $userId
+        ] );
+
+        $array = $sql->fetchAll();
+
+        $friendArray = [];
+        foreach ($array as $friend) {
+            $friendArray[] = new Friend($friend['id'], $this->getUserById($friend['sender_id']), $this->getUserById($friend['receiver_id']), $friend['state']);
         }
+        return $friendArray;
     }
-    public function yourPendingRequest(int $userId) : array{
-        $sql = $this->connection->prepare("SELECT * FROM friend WHERE first_user_id = " . $userId . " AND state != 0 OR second_user_id = " . $userId . " AND state != 0");
-        $sql->execute();
+
+    public function getRequestsBySenderId(int $senderId) : array {
+        $sql = $this->connection->prepare("SELECT * FROM friend WHERE sender_id = :senderId AND state = 0 ");
+        $sql->execute( [
+            'senderId' => $senderId
+        ] );
+
         $array = $sql->fetchAll(); 
+
         $pendingArray = [];
         foreach ($array as $pending) {
-            $pendingArray[] = new Friend($pending['first_user_id'], $pending['state'], $pending['second_user_id']);
+            $pendingArray[] = new Friend($pending['id'], $this->getUserById($pending['sender_id']), $this->getUserById($pending['receiver_id']), $pending['state']);
         }
         return $pendingArray;
     }
 
-    public function receiveRequest(int $userId) : ?Friend{
-        $sql = $this->connection->prepare("SELECT first_user_id FROM friend WHERE second_user_id = " . $userId . " AND state != 0");
-        $sql->execute();
-        $array = $sql->fetch();
-        return new Friend($array['first_user_id'], $array['state'], $array['second_user_id']);
-    }
+    public function getRequestsByReceiverId(int $receiverId) : array {
+        $sql = $this->connection->prepare("SELECT * FROM friend WHERE receiver_id = :receiverId AND state = 0 ");
+        $sql->execute( [
+            'receiverId' => $receiverId
+        ] );
 
-    public function declineRequest(int $userId, int $anotherId){
-        $sql =  $this->connection->prepare("DELETE FROM friend WHERE first_user_id = " .$userId . " AND second_user_id = " . $anotherId . " OR first_user_id = " . $anotherId . " AND second_user_id = " . $userId);
-        $sql->execute();
-    }
-
-    public function validityRequest(int $userId, int $anotherId){
-        $sql =  $this->connection->prepare("UPDATE friend SET state = 0 WHERE first_user_id = " . $userId . " AND second_user_id = ". $anotherId  . " OR first_user_id = " . $anotherId . " AND second_user_id = ". $userId );
-        $sql->execute();
-    }
-
-    public function yourFriend(int $userId) : array{
-        $sql = $this->connection->prepare("SELECT * FROM friend WHERE first_user_id = " .$userId . " AND state = 0 OR second_user_id = " . $userId . " AND state = 0 ");
-        $sql->execute();
         $array = $sql->fetchAll(); 
-        $friendArray = [];
-        foreach ($array as $friend) {
-            $friendArray[] = new Friend($friend['first_user_id'], $friend['state'], $friend['second_user_id']);
+
+        $pendingArray = [];
+        foreach ($array as $pending) {
+            $pendingArray[] = new Friend($pending['id'], $this->getUserById($pending['sender_id']), $this->getUserById($pending['receiver_id']), $pending['state']);
         }
-        return $friendArray;
+        return $pendingArray;
     }
- }
+
+    public function declineRequest(int $requestId){
+        $sql =  $this->connection->prepare("DELETE FROM friend WHERE id = :requestId" );
+        $sql->execute( [
+            'requestId' => $requestId
+        ] );
+    }
+
+    public function acceptRequest(int $requestId){
+        $sql =  $this->connection->prepare("UPDATE friend SET state = 1 WHERE id = :requestId" );
+        $sql->execute( [
+            'requestId' => $requestId
+        ] );
+    }
+
+}
 ?>
