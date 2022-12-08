@@ -1,118 +1,198 @@
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  font-family: sans-serif;
 }
-body > * {
-    padding: 0;
-    margin: 20px 0;
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.home > * {
+  padding: 0;
+  margin: 20px 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 15vh;
+  position: absolute;
+  top: 15%;
+}
+
+.link {
+  width: 8vw;
+  height: 6vh;
+  background-color: #00818F;
+  margin: 1vh 1vw 0vh 1vw;
+  display: flex;
+  justify-content: center;
+}
+.link > p {
+  font-size: medium;
+}
+
+.friends {
+  width: 10vw;
+  height: 80vh;
+  background-color: #004F59;
+  border: solid black 1px;
+}
+.friends > p {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  margin: 20vh 20vw 1vh 20vw;
+  width: 60vw;
 }
 
 #download-button {
-    color: aqua;
-    padding: 10px 25px;
-    background-color: rgba(0.5, 0.5, 0.5, 0.5);
+  color: aqua;
+  padding: 10px 25px;
+  background-color: rgba(1, 1, 1, 0.5);
 }
 
-.header_titre {
-    color : red;
-    text-align : center;
-    padding: 15px 150px;
-    font-size : 28px;
-    background-color: green;
-}
- 
-body {
-    margin : 0;
-    background-image: url("../images/background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
 .create-task-form {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width : 600px;
-    border-radius : 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  border-radius: 5px;
 }
-.create-task-form>* {
-    height: 45px;
-    width: 150px;
-    margin: 0;
+
+.create-task-form > * {
+  height: 45px;
+  width: 150px;
+  margin: 0;
 }
- 
-.taches_input {
-    width: 150px;
-    display: flex;
+
+.task_input {
+  width: 150px;
+  display: flex;
 }
-.middle{
-    background-color: red;
-    width : 600px;
-    display : grid;
-    grid-template-columns:  8fr 2fr;
+
+.middle {
+  background-color: red;
+  width: 600px;
+  display: grid;
+  grid-template-columns: 8fr 2fr;
 }
- 
-#inserer {
-    height : 45px;
+
+#insert {
+  height: 45px;
 }
- 
+
 #envoyer {
-    background-color : green;
-    height : 45px;
-    width: 50px;
-}
- 
-#description{
-    width:150px;
+  background-color: white;
+  height: 60px;
+  width: 500px;
+  border-radius: 100px;
 }
 
-.taches {
-    width : 600px;
-    border: 1px solid green;
-    border-collapse : collapse;
+.remember:label {
+  cursor: pointer;
+  text-align: center;
 }
- 
-th {
-    border: 1px solid green;
-    padding : 10px;
+.remember:hover {
+  color: #004F59;
 }
-.center_table{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+#description {
+  width: 150px;
 }
-.warning:hover{
-    color: rgb(111, 221, 254);
+
+.task {
+  width: 600px;
+  border: 1px solid green;
+  border-collapse: collapse;
 }
-td {
-    border : 5px solid green;
-    text-align : center;
-    padding : 10px;
-    background-color: aliceblue;
+
+.center_table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
- 
+
+.warning:hover {
+  color: rgb(111, 221, 254);
+}
+
 .suppr {
-    color : red;
-    text-decoration : none;
- 
+  color: red;
+  text-decoration: none;
 }
- 
 .suppr:hover {
-    color : red;
-    text-decoration : none;
+  text-decoration: none;
+  color: red;
 }
 
-.rouge{
-    color: red;
+.none {
+  display: none;
 }
 
-.jaune{
-    color: gold;
+#header {
+  background-color: #015958;
+  width: 100vw;
+  height: 25vh;
+  margin: 0vh;
+  display: flex;
+  justify-content: center;
+}
+#header > a {
+  left: 50%;
 }
 
-.vert{
-    color: green;
+.post {
+  background-color: #004F59;
+  width: 45vw;
+  height: fit-content;
+  margin-left: 2.5vw;
 }
+.post > * {
+  padding-left: 1vw;
+}
+
+.rod {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  background-color: #00818F;
+  width: 42vw;
+  height: 0.5vh;
+}
+
+.login-form {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 15px 30px;
+}
+
+.flex-items {
+  margin: 10px;
+  text-align: center;
+  font-size: 40px;
+  line-height: 1.5;
+}
+
+.home {
+  margin: 0vh;
+  overflow-x: hidden;
+  background-color: #023535;
+}
+
+.profil_picture {
+  height: 8vh;
+}
+
+.user_frame {
+  background-color: #004F59;
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,209 @@
+$primaryColor: #00818F;
+$secondaryColor: #015958;
+$tertiaryColor: #023535;
+$tgQuentin: #004F59;
+body{
+    font-family: sans-serif;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    & > * {
+        padding: 0;
+        margin: 20px 0;
+    }
+}
+.nav{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:100vw;
+    height:15vh;
+    position: absolute;
+    top:15%;
+    
+    
+
+}
+.link{
+    width: 8vw;
+    height:6vh;
+    background-color: $primaryColor;
+    margin: 1vh 1vw 0vh 1vw;
+    display: flex;
+    justify-content: center;
+    & > p {
+        font-size: medium;
+        
+    }
+}
+.friends{
+    width:10vw;
+    height: 80vh;
+    background-color:$tgQuentin;
+   
+    border: solid black 1px;
+    & > p{
+        display:flex;
+        justify-content: center;
+    }
+}
+.content{
+    
+    display: flex;
+    margin:20vh 20vw 1vh 20vw;
+    width: 60vw;
+}
+
+#download-button {
+    color: aqua;
+    padding: 10px 25px;
+    background-color: rgba(0.5, 0.5, 0.5, 0.5);
+}
+
+.create-task-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width : 600px;
+    border-radius : 5px;
+}
+
+.create-task-form {
+    & > * {
+        height: 45px;
+        width: 150px;
+        margin: 0;
+    }
+}
+
+
+.task_input {
+    width: 150px;
+    display: flex;
+}
+
+.middle {
+    background-color: red;
+    width : 600px;
+    display : grid;
+    grid-template-columns:  8fr 2fr;
+}
+ 
+#insert {
+    height : 45px;
+}
+ 
+#envoyer {
+    background-color : white;
+    height: 60px;
+    width: 500px;
+    border-radius: 100px;
+}
+
+.remember{
+    &:label { 
+        cursor: pointer;
+        text-align: center;
+    }
+    &:hover{
+        color: #004F59;
+    }
+}
+
+#description {
+    width:150px;
+}
+
+.task {
+    width : 600px;
+    border: 1px solid green;
+    border-collapse : collapse;
+}
+
+.center_table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.warning:hover {
+    color: rgb(111, 221, 254);
+}
+ 
+.suppr {
+    color : red;
+    text-decoration : none;
+
+    &:hover {
+        text-decoration : none;
+        color : red;
+    }
+}
+
+.none{
+    display: none;
+}
+
+//home page css
+#header {
+    background-color: $secondaryColor;
+    width: 100vw;
+    height: 25vh;
+    margin: 0vh;
+    display:flex;
+    justify-content: center;
+    & > a {
+        left: 50%;
+    }
+}
+
+.post{
+    background-color:$tgQuentin;
+    width: 45vw;
+    height: fit-content;
+    margin-left: 2.5vw;
+    & > * {
+        padding-left: 1vw;
+    }
+}
+.rod{
+    margin-left: 1vw;
+    margin-right: 1vw;
+    background-color:$primaryColor;
+    width:42vw;
+    height:0.5vh;
+}
+
+
+.login-form {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 15px 30px;
+}
+.flex-items {
+    margin: 10px;
+    text-align: center;
+    font-size: 40px;
+    line-height: 1.5;
+}
+.home {
+    margin: 0vh;
+    overflow-x: hidden;
+    background-color: $tertiaryColor;
+}
+.profil_picture{
+    height: 8vh;
+}
+
+//Friend page css 
+.user_frame {
+    background-color: $tgQuentin;
+}

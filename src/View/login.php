@@ -6,18 +6,27 @@ ob_start();
 
 ?>
 
-<p class="header_titre"><?= translate("login") ?></p>
 
-<form class="login-form" method="get" action="">
-    
-    <input type="text" id="id" name="id" placeholder="<?= translate("identifier") ?>"/>
-    <input type="password" id="password" name="password" placeholder="<?= translate("password") ?>">
-    <button id="envoyer"><?= translate("confirm") ?></button>
-    
-</form>
+<body>
+    <p class="header_title"><?= translate("login") ?></p>
 
-<h3 style="color: red;"> <?= isset($error_message) ? $error_message : "" ?></h3>
+    <div>
+        <form class="login-form" method="get" action="">
+            
+            <input class="flex-items" type="text" id="id" name="id" placeholder="<?= translate("identifier") ?>"/>
+            <input class="flex-items" type="password" id="password" name="password" placeholder="<?= translate("password") ?>">
+            <input type="checkbox"class="remember" id="remember"value="remember">
+            <label for="remember" class="remember">remember</label>
+            <button class="flex-items" id="envoyer"><?= translate("confirm") ?></button>
+            
+        </form>
+    </div>
 
+    <h3 style="color: red;"> <?= isset($error_message) ? $error_message : "" ?></h3>
+
+
+
+</body>
 
 <?php
 

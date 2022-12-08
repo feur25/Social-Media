@@ -2,14 +2,14 @@
 
 class Emojitab{
     public int $ownerId;
-    public int $topic_id;
-    public int $message_id;
+    public int $topicId;
+    public int $messageId;
     public int $id;
 
     public function __construct(int $userId, int $topicId, int $commentId, int $emojiiD){
         $this->ownerId = $userId;
         $this->topicId = $topicId;
-        $this->message_id = $commentId;
+        $this->messageId = $commentId;
         $this->id  = $emojiiD;
     }
 }

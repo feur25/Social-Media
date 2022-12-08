@@ -9,14 +9,16 @@ class User {
     public string $username;
     public string $email;
     public string $password;
+    public string $profileUrl;
     public string $publicKey;
     public string $date;
 
-    public function __construct(int $id, string $username, string $email, string $password, string $publicKey, string $date = "") {
+    public function __construct(int $id, string $username, string $email, string $password, string $pictureUrl, string $publicKey, string $date = "") {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+        $this->profileUrl = $pictureUrl;
         $this->publicKey = $publicKey;
         $this->date = $date;
     }
@@ -25,11 +27,12 @@ class User {
 class UserRepository extends Repository{
 
     public function insertUser(string $username, string $email, string $password) {
-        $sql = $this->connection->prepare( "INSERT INTO user (username, email, password, public_key) VALUES (:username, :email, :password, :key)" );
+        $sql = $this->connection->prepare( "INSERT INTO user (username, email, password, profile_url, public_key) VALUES (:username, :email, :password, :profile, :key)" );
         $sql->execute( [
             'username' => $username,
             'email' => $email,
             'password' => $password,
+            'profile' => "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png",
             'key' => createKeyUser()
         ] );
     }
@@ -48,7 +51,7 @@ class UserRepository extends Repository{
         }
 
         $array = $sql->fetch();
-        return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
+        return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['profile_url'], $array['public_key'], $array['register_date']);
     }
 
     public function getUser(int $nameFriend) : array{
@@ -82,7 +85,7 @@ class UserRepository extends Repository{
         }
 
         $array = $sql->fetch();
-        return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
+        return new User($array['id'], $array['username'], $array['email'], $array['password'] , $array['profile_url'], $array['public_key'], $array['register_date']);
     }
 
     public function getUserByIdentifier(string $identifier) : ?User {
@@ -97,7 +100,7 @@ class UserRepository extends Repository{
             }
     
             $array = $sql->fetch();
-            return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
+            return new User($array['id'], $array['username'], $array['email'], $array['password'] , $array['profile_url'], $array['public_key'], $array['register_date']);
     }
 
     public function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {
@@ -114,7 +117,7 @@ class UserRepository extends Repository{
         }
 
         $array = $sql->fetch();
-        return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['public_key'], $array['register_date']);
+        return new User($array['id'], $array['username'], $array['email'], $array['password'] , $array['profile_url'], $array['public_key'], $array['register_date']);
     }
 }
 

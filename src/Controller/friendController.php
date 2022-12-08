@@ -25,12 +25,9 @@ class FriendController extends FriendRepository {
             if(isset($_POST['decline-request'])){
                 $this->declineRequest($_POST["decline-request"]);
             }
-
-
             $receivedRequests = $this->getRequestsByReceiverId($userId);
             $sentRequests = $this->getRequestsBySenderId($userId);
             $friends = $this->getFriends($userId);
-
             require(__DIR__.'/../View/friend.php');
 
 

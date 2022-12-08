@@ -1,14 +1,6 @@
 <?php
 
 
-
-enum UserLanguage {
-    case English;
-    case Spanish;
-    case French;
-}
-
-
 function translate(string $untranslated) : string {
 
     $englishTranslations = [
@@ -29,8 +21,9 @@ function translate(string $untranslated) : string {
         "friends" => "Friends",
         "sent_requests" => "Sent Requests",
         "received_requests" => "Received Requests",
+        "messages" => "Messages",
     ];
-
+    
     $frenchTranslations = [
         "identifier" => "Courriel ou Nom d'utilisateur",
         "login" => "Se Connecter",
@@ -49,8 +42,9 @@ function translate(string $untranslated) : string {
         "friends" => "Amis",
         "sent_requests" => "Demandes Envoyées",
         "received_requests" => "Demandes Reçues",
+        "messages" => "Messages",
     ];
-
+    
     $spanishTranslations = [
         "identifier" => "Correo Electrónico o Nombre de Usuario",
         "login" => "Iniciar Sesión",
@@ -69,20 +63,21 @@ function translate(string $untranslated) : string {
         "friends" => "Amigos",
         "sent_requests" => "Solicitudes Enviadas",
         "received_requests" => "Solicitudes Recibidas",
+        "messages" => "Mensajes",
     ];
 
-    $_COOKIE['language'] = UserLanguage::English;
+    $_COOKIE['language'] = "english";
 
     if (!isset($_COOKIE['language'])) {
-        $_COOKIE['language'] = UserLanguage::English;
+        $_COOKIE['language'] = "english";
     }
 
     switch ($_COOKIE['language']) {
-        case UserLanguage::English:
+        case "english":
             return $englishTranslations[$untranslated];
-        case UserLanguage::French:
+        case "french":
             return $frenchTranslations[$untranslated];
-        case UserLanguage::Spanish:
+        case "spanish":
             return $spanishTranslations[$untranslated];
     }
 

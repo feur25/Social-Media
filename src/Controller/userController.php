@@ -58,7 +58,7 @@ class UserController extends UserRepository {
             return "Password and Confirmation Password must match";
         }
 
-        if ( !$this->userRepository->register($username, $email, $password) ) {
+        if ( !$this->register($username, $email, $password) ) {
             return "The Username or Email is already in use";
         }
         
@@ -83,6 +83,7 @@ class UserController extends UserRepository {
                     $_SESSION['userName'] = $loggedUser->username;
                     $_SESSION['userEmail'] = $loggedUser->email;
                     $_SESSION['userPassword'] = $loggedUser->password;
+                    $_SESSION['userProfile'] = $loggedUser->profileUrl;
                     $_SESSION['userKey'] = $loggedUser->publicKey;
                     $_SESSION['userDate'] = $loggedUser->date;
 

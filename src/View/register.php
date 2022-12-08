@@ -6,7 +6,7 @@ ob_start();
 
 ?>
 
-<p class="header_titre"><?= translate("register") ?></p>
+<p class="header_title"><?= translate("register") ?></p>
 
 <form class="login-form" method="post" action="">
     

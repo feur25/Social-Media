@@ -18,7 +18,7 @@
         ?>
             <div class="friend">
                 <p><?= $friendUser->username ?></p>
-                <form  class="friend" method="post" action="">
+                <form class="friend" method="post" action="">
                     <button id="decline-request" name="decline-request" value="<?= $friend->id ?>" >Delete</button>
                 <form>
             </div>

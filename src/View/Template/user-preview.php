@@ -6,7 +6,9 @@ if (isset($user)) {
     ?>
         <div class="user-preview">
             <h3>
-                <?= $user->username; ?>
+                
+                <img class="profil_picture" src="<?= $user->profileUrl; ?>" />
+                <p> <?= $user->username; ?> </p>
             </h3>
         </div>
     <?php
