@@ -21,13 +21,13 @@
             if($sentRequest->sender->id == $userId){
     
                 ?>
-                <div class="friend-sent">
+                <div class="friend">
                     <?php
                     $user = $sentRequest->receiver;
                     require __DIR__."/../user/preview.php" 
                     ?>
-                    <div class="friend-sent-options">
-                        <a class="link" href="/friend/delete/?id=<?= $sentRequest->id ?>"><?= translate("cancel") ?></a>
+                    <div class="friend-options">
+                        <a class="link-small" href="/friend/delete/?id=<?= $sentRequest->id ?>"><?= translate("cancel") ?></a>
                     </div>
                 </div>
                 <?php

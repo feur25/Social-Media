@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/userModel.php';
+require_once __DIR__ . '/../util/log.php' ;
 
 class Friend{
     public int $id;
@@ -84,7 +85,7 @@ class FriendRepository {
 
         $message = 'sent request : ' . $senderId . ' to ' . $receiverId;
         echo "<script>console.log('" . $message . "');</script>";
-            
+        writeFile(__FUNCTION__, $senderId . " a ajouté " . $receiverId . " en ami.");  
     }
 
     public static function getFriends(int $userId) : array{
@@ -107,6 +108,7 @@ class FriendRepository {
         $sql->execute( [
             'requestId' => $requestId
         ] );
+        writeFile(__FUNCTION__, "La demande d'amis" . $requestId . " a été rejetée.");
     }
 
     public static function acceptRequest(int $requestId){
@@ -114,6 +116,7 @@ class FriendRepository {
         $sql->execute( [
             'requestId' => $requestId
         ] );
+        writeFile(__FUNCTION__, "La demande d'amis " . $requestId . " a été acceptée.");
     }
 
 }

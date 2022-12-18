@@ -21,14 +21,14 @@
             if($receivedRequest->receiver->id == $userId){
                 
                 ?>
-                    <div class="friend-received">
+                    <div class="friend">
                         <?php
                         $user = $receivedRequest->sender;
                         require __DIR__."/../user/preview.php" 
                         ?>
-                        <div class="friend-received-options">
-                            <a class="link" href="/friend/accept/?id=<?= $receivedRequest->id ?>"><?= translate("accept_request") ?></a>
-                            <a class="link" href="/friend/delete/?id=<?= $receivedRequest->id ?>"><?= translate("decline_request") ?></a>
+                        <div class="friend-options">
+                            <a class="link-small" href="/friend/accept/?id=<?= $receivedRequest->id ?>"><?= translate("accept_request") ?></a>
+                            <a class="link-small" href="/friend/delete/?id=<?= $receivedRequest->id ?>"><?= translate("decline_request") ?></a>
                         </div>
                     </div>
                 <?php

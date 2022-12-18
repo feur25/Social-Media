@@ -13,8 +13,10 @@ if ( isset($response) && $response != null ) {
             <?php
                 if ( isset($_SESSION['userId']) && $_SESSION['userId'] == $response->owner->id ) {
                     ?>
-                        <a class="link" href="/topic/edit-response?id=<?= $response->id ?>&content=<?= $response->content ?>">Edit</a>
-                        <a class="link" href="/topic/delete-response?id=<?= $response->id ?>">Delete</a>
+                        <div class="topic-options">
+                            <a class="link-small" href="/topic/edit-response?id=<?= $response->id ?>&content=<?= $response->content ?>"><?= translate("edit") ?></a>
+                            <a class="link-small" href="/topic/delete-response?id=<?= $response->id ?>"><?= translate("delete") ?></a>
+                        </div>
                     <?php
                 }
             ?>

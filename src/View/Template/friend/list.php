@@ -30,8 +30,7 @@
                 require __DIR__."/../user/preview.php" 
                 ?>
                 <div class="friend-options">
-                    <a class="link" href="/friend/delete/?id=<?= $friend->id ?>"><?= translate("delete") ?></a>
-                    <a class="link" href="/"><?= translate("messages") ?></a>
+                    <a class="link-small" href="/friend/delete/?id=<?= $friend->id ?>"><?= translate("delete") ?></a>
                 </div>
             </div>
             <?php

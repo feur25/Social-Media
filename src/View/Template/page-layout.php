@@ -11,13 +11,13 @@ require_once __DIR__."/../../util/translate.php";
     <head>
         <link rel="stylesheet" href="/public/CSS/style.css"/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="/public/scripts/user-language.js" type="text/javascript" defer></script>
         <script src="/public/scripts/lazy-load.js" type="text/javascript" defer></script>
     </head>
 
-    <body class="home">
+    <body>
         <div id="header">
 
-            <p class="header-title">Social-Media</p>
             <div id="nav-user">
                 <?php
                 if ( isset($_SESSION['userId']) ) {
@@ -39,27 +39,33 @@ require_once __DIR__."/../../util/translate.php";
                 }
                 ?>
             </div>
+            
+            <form>
+                <select id="user-language-form" name="user-language">
+                    <?php
+                    if (!isset($_COOKIE['language'])) {
+                        $_COOKIE['language'] = "english";
+                    }
+                    ?>
+                    <option value="english" <?= isset($_COOKIE['language']) && $_COOKIE['language'] == "english" ? "selected" : "" ?>>English</option>
+                    <option value="french" <?= isset($_COOKIE['language']) && $_COOKIE['language'] == "french" ? "selected" : "" ?>>Français</option>
+                    <option value="spanish" <?= isset($_COOKIE['language']) && $_COOKIE['language'] == "spanish" ? "selected" : "" ?>>Español</option>
+                </select>
+            </form>
 
             <div id="nav">
                 <a href="/" class="link">
-                    Home
+                    <?= translate("home") ?>
                 </a>
                 <a href="/friend" class="link">
-                    Friends
-                </a>
-                <a href="/message" class="link">
-                    Messages
+                    <?= translate("friends") ?>
                 </a>
                 <a href="/topic" class="link">
-                    Topic
-                </a>
-                <a href="/setting" class="link">
-                    Settings
+                    <?= translate("topics") ?>
                 </a>
             </div>
             
         </div>
-        <script>var socket = io();</script>
         <?= $page_contents; ?>
 
     </body>

@@ -3,6 +3,7 @@
 require_once __DIR__.'/repository.php';
 require_once __DIR__.'/topicModel.php';
 require_once __DIR__.'/userModel.php';
+require_once __DIR__ . '/../util/log.php' ;
 
 class TopicResponse {
     public int $id;
@@ -27,6 +28,7 @@ class TopicResponseRepository {
             'senderId' => $senderId,
             'content' => $content
         ]);
+        writeFile(__FUNCTION__, "L'utilisateur " . $senderId . " a répondu au topic " . $topicId . ".");
     }
 
     public static function editResponse(int $id, string $content) : TopicResponse {
@@ -35,6 +37,7 @@ class TopicResponseRepository {
             'responseId' => $id,
             'content' => $content
         ]);
+        writeFile(__FUNCTION__, "La réponse " . $id . " a été modifiée." );
 
         return TopicResponseRepository::getResponseById($id);
     }
@@ -44,6 +47,7 @@ class TopicResponseRepository {
         $sql->execute([
             'responseId' => $responseId
         ]);
+        writeFile(__FUNCTION__, "La réponse " . $responseId . " a été supprimée." );
     }
 
     public static function getResponseById(int $responseId) : ?TopicResponse {

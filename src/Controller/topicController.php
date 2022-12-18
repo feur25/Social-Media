@@ -21,14 +21,20 @@ class TopicController {
                     header('Location: /login');
                     return;
                 }
-                
-                TopicResponseRepository::insertResponse($topicId, $_SESSION['userId'], $_POST["response-content"]);
-                header('Location: /topic/?id='.$topicId);
+                if ($_POST["response-content"] != ""){
+                    TopicResponseRepository::insertResponse($topicId, $_SESSION['userId'], $_POST["response-content"]);
+                    header('Location: /topic/?id='.$topicId);
+                }
 
             }
 
 
             $topic = TopicRepository::getTopicById($topicId);
+
+            if ( $topic == null ) {
+                header('Location: /');
+                return;
+            }
             $responses = TopicResponseRepository::getResponsesByTopicId($topicId);
 
         } else {
@@ -39,23 +45,10 @@ class TopicController {
                     header('Location: /login');
                     return;
                 }
-                
-                // if ($_SERVER['REQUEST_METHOD'] == 'POST' ) {
-                //     $tmpFile = $_FILES['topic-url-profile']['tmp_name'];
-                //     $newFile = '/'.$_FILES['topic-url-profile']['name'];
-                //     $result = move_uploaded_file($tmpFile, $newFile);
-                //     echo $_FILES['topic-url-profile']['name'];
-                //     if ($result) {
-                //         echo "test";
-                //     } else {
-                //         header('Location: /register');
-                //     }
-                // }
-
-                $insertedTopic = TopicRepository::insertTopic($_SESSION['userId'], $_POST['topic-title'], $_POST['topic-content'], $_POST['topic-mood'], $_FILES['topic-header']);
-                
-
-                header('Location: /topic/?id='.$insertedTopic->id);
+                if ($_POST['topic-title'] != "" && $_POST['topic-content'] != "" ){
+                    $insertedTopic = TopicRepository::insertTopic($_SESSION['userId'], $_POST['topic-title'], $_POST['topic-content'], $_POST['topic-mood'], $_FILES['topic-header']);
+                    header('Location: /topic/?id='.$insertedTopic->id);
+                }
 
             }
         }

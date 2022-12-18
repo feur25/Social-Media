@@ -33,6 +33,10 @@ function translate(string $untranslated) : string {
         "title" => "Title",
         "content" => "Content",
 
+        "topics" => "Topics",
+        "create_topic" => "Create Topic",
+        "create_response" => "Create Reply",
+
         "friend" => "Friend",
         "friends" => "Friends",
         "sent_requests" => "Sent Requests",
@@ -40,6 +44,10 @@ function translate(string $untranslated) : string {
         "accept_request" => "Accept Request",
         "decline_request" => "Decline Request",
         "messages" => "Messages",
+
+        "home" => "Home",
+        "home" => "Home",
+        "topic" => "Topic",
     ];
     
     $frenchTranslations = [
@@ -72,6 +80,10 @@ function translate(string $untranslated) : string {
         "title" => "Titre",
         "content" => "Contenu",
 
+        "topics" => "Posts",
+        "create_topic" => "Créer un Post",
+        "create_response" => "Créer une Réponse",
+
         "friend" => "Ami",
         "friends" => "Amis",
         "sent_requests" => "Demandes Envoyées",
@@ -79,6 +91,8 @@ function translate(string $untranslated) : string {
         "accept_request" => "Accepter la Demande",
         "decline_request" => "Refuser la Demande",
         "messages" => "Messages",
+
+        "home" => "Accueil",
     ];
     
     $spanishTranslations = [
@@ -109,6 +123,10 @@ function translate(string $untranslated) : string {
         "title" => "Título",
         "content" => "Contenido",
 
+        "topics" => "Mensajes",
+        "create_topic" => "Crear un Mensaje",
+        "create_response" => "Crear una Respuesta",
+
         "friend" => "Amigo",
         "friends" => "Amigos",
         "sent_requests" => "Solicitudes Enviadas",
@@ -117,6 +135,9 @@ function translate(string $untranslated) : string {
         "decline_request" => "Rechazar la Solicitud",
         "messages" => "Mensajes",
         "joined_on" => "Se unió el",
+
+        "home" => "Inicio",
+
     ];
 
     if (!isset($_COOKIE['language'])) {

@@ -104,8 +104,6 @@ class UserController {
                     $_SESSION['userName'] = $loggedUser->username;
                     $_SESSION['userEmail'] = $loggedUser->email;
                     $_SESSION['userPassword'] = $loggedUser->password;
-                    $_SESSION['userProfile'] = $loggedUser->profileUrl;
-                    $_SESSION['userKey'] = $loggedUser->publicKey;
                     $_SESSION['userDate'] = $loggedUser->date;
 
                     header('Location: ' . $_SERVER['HTTP_REFERER']);

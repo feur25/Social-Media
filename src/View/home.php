@@ -8,20 +8,12 @@ require_once __DIR__.'/../Controller/topicController.php';
 
 <div class="home">
     
-    <div id="side-nav">
+    <div id="nav-side">
         <?php include __DIR__."/Template/friend/list.php"; ?>
     </div>
 
-    <div id="posts-wall">
-        
-        <div class="top-post"> 
-            <p>bouh</p>
-        </div>
-
-        <div class="rod"></div>
-
+    <div id="topics-wall">
         <div id="topics-list"></div>
-        
     </div>
 
 </div>

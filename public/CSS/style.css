@@ -6,25 +6,104 @@
   margin: 1vh 1vw;
   padding: 1.5vh 2vw;
 }
+.link-small {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #00818F;
+  margin: 1vh 1vw;
+  padding: 1vh 1vw;
+  border-radius: 15px;
+}
 
-p, span, a, h1, h2, h3, h4, h5 {
-  text-decoration: none;
+.btn, button {
+  background-color: #004F59;
+  color: #00818F;
+  border-width: 2px;
+  border-style: outset;
+  border-color: black;
+  border-image: initial;
+  margin: 5vh;
   text-align: center;
+  width: 10vw;
+  font-size: 20px;
+  border-radius: 100px;
+  padding: 1vh 0;
+}
+.btn:hover, button:hover {
+  cursor: pointer;
+}
+.btn:active, button:active {
+  color: #015958;
+}
+
+.rod {
+  background-color: #00818F;
+  width: 95%;
+  height: 0.5vh;
+}
+
+.vertical-line {
+  width: 0.5vw;
+  height: 95%;
+  background-color: black;
+}
+
+.warning:hover {
+  color: rgb(111, 221, 254);
+}
+
+p, span, a, h1, h2, h3, h4, h5, button {
+  text-decoration: none;
   font-size: medium;
   color: black;
   vertical-align: middle;
-  margin: 0;
 }
 
 body {
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #023535;
+  margin: 0;
+}
+body > nav {
+  padding: 0;
+  margin: 20px 0px 0px 0px;
 }
 
 form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  margin: 0vw 2vh 0vw 0vh;
+}
+form > * {
+  background-color: #004F59;
+}
+
+input, textarea, select {
+  margin: 0.5vh 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 28px;
+  box-sizing: border-box;
+  width: 100%;
+}
+input::file-selector-button, textarea::file-selector-button, select::file-selector-button {
+  background-color: #004F59;
+}
+input[type=checkbox], textarea[type=checkbox], select[type=checkbox] {
+  height: 60px;
+  width: 500px;
+  background-color: #ff0000;
+}
+input[type=checkbox]:checked, textarea[type=checkbox]:checked, select[type=checkbox]:checked {
+  visibility: hidden;
 }
 
 #header {
@@ -33,10 +112,13 @@ form {
   padding: 5vh 0;
   margin: 0 0 10vh 0;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
   position: relative;
+}
+#header-title {
+  text-align: center;
 }
 #header > a {
   left: 50%;
@@ -56,57 +138,15 @@ form {
   justify-content: center;
   align-items: center;
 }
-
-#side-nav {
+#nav-side {
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  overflow-y: scroll;
   top: 30vh;
   left: 3vw;
-}
-
-.account {
-  display: flex;
-  flex-direction: column;
-}
-
-input[type=checkbox] {
-  height: 60px;
-  width: 500px;
-  background-color: #ff0000;
-}
-input[type=checkbox]:checked {
-  visibility: hidden;
-}
-
-.header-title {
-  text-align: center;
-}
-
-.home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #023535;
-  margin: 0;
-}
-.home > nav {
-  padding: 0;
-  margin: 20px 0px 0px 0px;
-}
-
-#friends-list, #sent-friend-requests, #received-friend-requests {
-  width: 20vw;
-  min-height: 60vh;
-  background-color: #004F59;
-  border: solid black 1px;
-}
-#friends-list > p, #sent-friend-requests > p, #received-friend-requests > p {
-  display: flex;
-  justify-content: center;
 }
 
 #friends-wall {
@@ -116,61 +156,165 @@ input[type=checkbox]:checked {
   width: 80vw;
 }
 
-.friend, .friend-sent, .friend-received {
+#friends-list, #sent-friend-requests, #received-friend-requests {
+  width: 20vw;
+  min-height: 60vh;
+  background-color: #004F59;
+  text-align: center;
+  border: solid black 1px;
+}
+#friends-list > p, #sent-friend-requests > p, #received-friend-requests > p {
+  display: flex;
+  justify-content: center;
+}
+
+.friend {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-.friend-options, .friend-sent-options, .friend-received-options {
+.friend-options {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
+.user-picture {
+  height: 8vh;
+  width: 8vh;
+  border-radius: 40px;
+  object-fit: cover;
+}
 .user-preview {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   height: 10vh;
-  width: 8vw;
+  width: 100;
   background-color: #004F59;
   border: solid black 1px;
   margin: 1vh 0;
   padding: 0 1vw 0 0.25vw;
 }
 
-.profil-picture {
-  height: 8vh;
-  width: 8vh;
+#topics-wall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45vw;
+}
+#topics-wall > * {
+  margin: 2vw;
+}
+
+.topic {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #004F59;
+  width: 20vw;
+  padding: 2vh 13vw;
+  margin: 10vh 0vw 10vh 0vw;
+}
+.topic-preview {
+  position: relative;
+  background-color: #004F59;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 2vh 0vw 3vh 0vw;
+  width: 38vw;
+  padding: 3vh 1vw;
+}
+.topic-reaction {
+  position: relative;
+  background-color: #004F59;
+  border-radius: 15px;
+  padding: 0.5rem;
+}
+.topic-reaction-highlight {
+  background-color: #00818F;
+}
+.topic-reaction-list {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
+  left: 0;
+  top: 100%;
+  padding: 0.5rem;
+  border-radius: 15px;
+  background-color: #004F59;
+}
+.topic:hover > .topic-reaction-list {
+  display: flex;
+}
+.topic-response {
+  position: relative;
+  margin: 2vh 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #004F59;
+  width: 20vw;
+  padding: 2vh 13vw;
+}
+.topic-reactions {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 25vw;
+  top: calc(100% + 1vh);
+  left: 0;
+}
+.topic-mood {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 25px;
   object-fit: contain;
 }
 
-#download-button {
-  color: aqua;
-  padding: 10px 25px;
-  background-color: rgba(1, 1, 1, 0.5);
-}
-
-.create-task-form {
+.topic-options, .topic-response-options {
+  position: absolute;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  width: 600px;
-  border-radius: 5px;
+  top: 100%;
+  right: 0;
 }
-
-.create-task-form > * {
-  height: 45px;
-  width: 150px;
-  margin: 0;
+.topic > .user-preview, .topic-response > .user-preview {
+  position: absolute;
+  top: -6vh;
+  left: -3vw;
 }
-
-.task_input {
-  width: 150px;
+.topic-header, .topic-response-header {
+  width: 50%;
+  height: auto;
+  object-fit: contain;
+  margin-right: 2vw;
+}
+.topic-content, .topic-response-content {
+  margin: 1vh 0 1vh 0;
+  font-size: 1rem;
+}
+.topic-title, .topic-response-title {
+  margin-top: 1vh;
+}
+.topic-info, .topic-response-info {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  text-align: start;
 }
 
 .middle {
@@ -180,89 +324,6 @@ input[type=checkbox]:checked {
   grid-template-columns: 8fr 2fr;
 }
 
-#insert {
-  height: 45px;
-}
-
-.btn-confirm {
-  background-color: white;
-  height: 60px;
-  width: 440px;
-  border-radius: 100px;
-}
-.btn-confirm:hover {
-  cursor: pointer;
-}
-
-#create {
-  text-decoration: none;
-  color: black;
-  background-color: white;
-  height: 60px;
-  width: 500px;
-  border-radius: 100px;
-  text-align: center;
-}
-
-#change {
-  text-decoration: none;
-  color: black;
-  background-color: white;
-  height: 60px;
-  width: 500px;
-  border-radius: 100px;
-  text-align: center;
-}
-
-#forget {
-  text-decoration: none;
-  color: black;
-  background-color: white;
-  height: 60px;
-  width: 500px;
-  border-radius: 100px;
-}
-
-#annul {
-  text-decoration: none;
-  color: black;
-  height: 60px;
-  width: 500px;
-  border-radius: 100px;
-  text-align: center;
-}
-#annul:hover {
-  color: white;
-}
-
-#creation {
-  background-color: white;
-  height: 60px;
-  width: 440px;
-  border-radius: 100px;
-}
-
-.remember {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  text-align: center;
-}
-.remember:label {
-  display: flex;
-  cursor: pointer;
-}
-
-#description {
-  width: 150px;
-}
-
-.task {
-  width: 600px;
-  border: 1px solid green;
-  border-collapse: collapse;
-}
-
 .center_table {
   display: flex;
   flex-direction: column;
@@ -270,74 +331,78 @@ input[type=checkbox]:checked {
   justify-content: center;
 }
 
-.warning:hover {
-  color: rgb(111, 221, 254);
-}
-
-.suppr {
-  color: red;
-  text-decoration: none;
-}
-.suppr:hover {
-  text-decoration: none;
-  color: red;
-}
-
 .none {
   display: none;
 }
 
-#posts-wall {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 45vw;
-  background-color: #004F59;
-}
-
-.rod {
-  background-color: #00818F;
-  width: 95%;
-  height: 0.5vh;
-}
-
-.login-form {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  padding: 15px 30px;
-}
-
-.flex-items {
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  text-align: center;
-  font-size: 40px;
-  line-height: 1.5;
-}
-
-.flex-items2 {
-  display: flex;
-  flex-direction: column;
+.annul {
   margin: 10px;
   text-align: left;
   font-size: 40px;
   line-height: 1.5;
 }
 
-.remember {
-  margin: 10px;
-  text-align: center;
-  font-size: 40px;
-  line-height: 1.5;
-  color: white;
-}
-
-.topic-preview > a > img {
-  width: 500%;
+.file-Upload {
+  background-color: #004F59;
 }
 
 .user_frame {
   background-color: #004F59;
+}
+
+dropdown {
+  display: inline-block;
+}
+dropdown label {
+  display: block;
+  width: 200px;
+  padding: 15px 20px;
+  color: #000000;
+  position: relative;
+  z-index: 2;
+}
+dropdown label:hover {
+  text-decoration: underline;
+  color: black;
+  cursor: pointer;
+}
+dropdown ul li {
+  display: block;
+  width: 200px;
+  padding: 15px 20px;
+}
+dropdown ul li:hover {
+  text-decoration: underline;
+  color: black;
+  cursor: pointer;
+}
+dropdown input {
+  display: none;
+}
+dropdown input ~ ul {
+  position: relative;
+  visibility: hidden;
+  opacity: 0;
+  top: -20px;
+  z-index: 1;
+}
+dropdown input:checked + label {
+  color: #000000;
+}
+dropdown input:checked ~ ul {
+  visibility: visible;
+  opacity: 1;
+  top: 0;
+}
+
+.animate {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  transition: all 0.3s;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
 }/*# sourceMappingURL=style.css.map */

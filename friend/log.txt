@@ -1,0 +1,2 @@
+Nom de la l'action : [sendRequest] - Description de l'action : [12 a ajouté 10 en ami.]
+Nom de la l'action : [acceptRequest] - Description de l'action : [La demande d'amis 51 a été acceptée.]

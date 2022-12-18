@@ -79,6 +79,6 @@ const urlParams = new URLSearchParams(queryString);
 
 
 
-new LazyLoading( document.getElementById('topics-list'), 'topic', 10 );
+new LazyLoading( document.getElementById('topics-list'), 'topic', 5 );
 const identifier = urlParams.get('id')
-new LazyLoading( document.getElementById('user-topics-list'), 'user-topic', 10, identifier);
+new LazyLoading( document.getElementById('user-topics-list'), 'user-topic', 5, identifier);

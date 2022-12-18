@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/repository.php';
 require_once __DIR__.'/userModel.php';
+require_once __DIR__ . '/../util/log.php' ;
 
 class Topic {
     public int $id;
@@ -61,6 +62,7 @@ class TopicRepository {
                     break;
             }
         }
+        writeFile(__FUNCTION__, "Une image de couverture a été ajoutée au Topic " . $id);
     }
 
     public static function insertTopic(int $ownerId, string $title, string $content, int $mood, array $headerFile) : ?Topic {
@@ -73,12 +75,13 @@ class TopicRepository {
         ]);
 
         if (!$status)
-            throw new Exception("Failed to insert topic");
+            return null;
 
         $sql = Repository::getPDO()->query("SELECT last_insert_id();");
         $id = intval($sql->fetchColumn());
 
         TopicRepository::updateHeader($id, $headerFile);
+        writeFile(__FUNCTION__, "Un nouveau topic a été créé par " . $ownerId . ".");
         return TopicRepository::getTopicById($id);
     }
 
@@ -93,6 +96,7 @@ class TopicRepository {
         ]);
 
         TopicRepository::updateHeader($id, $headerFile);
+        writeFile(__FUNCTION__, "Le topic " . $id . " a été modifié.");
         return TopicRepository::getTopicById($id);
     }
 
@@ -101,6 +105,7 @@ class TopicRepository {
         $sql->execute([
             'topicId' => $topicId
         ]);
+        writeFile(__FUNCTION__, "Le topic " . $topicId . " a été supprimé.");
     }
 
     public static function getTopicById(int $id) : ?Topic {
@@ -111,7 +116,7 @@ class TopicRepository {
 
         $task = $sql->fetch();
         if (!$task)
-            throw new Exception("Failed to get topic");
+            return null;
 
         return new Topic($task['id'], UserRepository::getUserById($task['owner_id']), $task['title'], $task['content'], $task['mood']);
     }

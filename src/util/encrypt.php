@@ -25,9 +25,11 @@ function createKeyUser() : string {
     }
     return encryptKey();
 }
-class Duplicate extends Repository {
+
+
+class Duplicate {
     public function verifyPublicKey() : bool{
-        $checkOut = $this->connection->prepare("SELECT public_key, COUNT(public_key)
+        $checkOut = Repository::getPDO()->prepare("SELECT public_key, COUNT(public_key)
         FROM users
         GROUP BY public_key
         HAVING COUNT(public_key) > 1");
@@ -38,6 +40,4 @@ class Duplicate extends Repository {
         return true;
     } 
 }
-
-
 ?>

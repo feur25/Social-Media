@@ -12,7 +12,7 @@
             <form class="response-form" method="post" action="">
                 
                 <textarea class="content" name="response-content" placeholder="<?= translate("content") ?>" id="message"><?= isset($_GET["content"]) ? $_GET["content"] : "" ?></textarea>
-                <button class="submit" onclick="sendmsg()"><?= translate("confirm") ?></button>
+                <button class="btn" onclick="sendmsg()"><?= translate("confirm") ?></button>
 
             </form>
         <?php

@@ -3,15 +3,16 @@
 require_once __DIR__.'/repository.php';
 require_once __DIR__.'/userModel.php';
 require_once __DIR__.'/../util/encrypt.php';
+require_once __DIR__ . '/../util/log.php' ;
 
 class PrivateMessage {
     public int $id;
-    public int $senderId;
-    public int $receiverId;
+    public User $senderId;
+    public User $receiverId;
     public string $message;
     public string $messageDate;
     
-    public function __construct(int $id, int $senderId, int $receiverId, string $message, string $messageDate) {
+    public function __construct(int $id, User $senderId, User $receiverId, string $message, string $messageDate) {
         $this->id = $id;
         $this->senderId = $senderId;
         $this->receiverId = $receiverId;
@@ -56,39 +57,6 @@ class PrivateMessageRepository {
         $array = $sql->fetch();
         return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['date']);
     }
-
-    // public static function getUserById(int $id) : ?User {
-        
-    //     $sql = Repository::getPDO()->prepare("SELECT * FROM users WHERE id = :id");
-    //     $sql->execute( [
-    //         'id' => $id,
-    //     ] );
-        
-
-    //     if ($sql->rowCount() == 0) {
-    //         return null;
-    //     }
-
-    //     $array = $sql->fetch();
-    //     return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['date']);
-    // }
-
-    // public static function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {
-
-    //     $sql = Repository::getPDO()->prepare("SELECT * FROM users WHERE (username = :identifier OR email = :identifier) AND password = :password");
-    //     $sql->execute( [
-    //         'identifier' => $identifier,
-    //         'password' => $password
-    //     ] );
-        
-
-    //     if ($sql->rowCount() == 0) {
-    //         return null;
-    //     }
-
-    //     $array = $sql->fetch();
-    //     return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['date']);
-    // }
 }
 
 ?>
