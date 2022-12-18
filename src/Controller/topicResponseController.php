@@ -1,20 +1,18 @@
 <?php
 
-session_start();
+require_once __DIR__.'/../Model/topicModel.php';
+require_once __DIR__.'/../Model/topicResponseModel.php';
 
-require_once(__DIR__.'/../Model/topicModel.php');
-require_once(__DIR__.'/../Model/topicResponseModel.php');
-
-class TopicResponseController extends TopicResponseRepository {
+class TopicResponseController {
 
 
-    public function __construct() {
-        parent::__construct();
-    }
+    public static function edit_page() {
 
-    public function edit_page() {
+        if ( session_status() != PHP_SESSION_ACTIVE ){
+            session_start();
+        }
 
-        $response = $this->getResponseById($_GET['id']);
+        $response = TopicResponseRepository::getResponseById($_GET['id']);
 
         if ( isset($_POST['response-content']) ) {
 
@@ -27,13 +25,17 @@ class TopicResponseController extends TopicResponseRepository {
                 return;
             }
 
-            $response = $this->editResponse($_GET['id'], $_POST['response-content']);
+            $response = TopicResponseRepository::editResponse($_GET['id'], $_POST['response-content']);
             header('Location: /topic/?id='.$response->topic->id);
 
         }
 
+        ob_start();
         
-        require(__DIR__.'/../View/edit-response.php');
+        require __DIR__.'/../View/edit-response.php';
+
+        $page_contents = ob_get_clean();
+        require __DIR__.'/../View/Template/page-layout.php';
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__.'/repository.php');
-require_once(__DIR__.'/userModel.php');
+require_once __DIR__.'/repository.php';
+require_once __DIR__.'/userModel.php';
 
 class Topic {
     public int $id;
@@ -11,59 +11,100 @@ class Topic {
     public int $mood;
     public string $headerUrl;
 
-    public function __construct(int $id, User $owner, string $title, string $content, int $mood, string $header) {
+    public function __construct(int $id, User $owner, string $title, string $content, int $mood) {
         $this->id = $id;
         $this->owner = $owner;
         $this->title = $title;
         $this->content = $content;
         $this->mood = $mood;
-        $this->headerUrl = $header;
     }
 }
 
-class TopicRepository extends Repository{
+class TopicRepository {
 
-    public function insertTopic(int $ownerId, string $title, string $content, int $mood, string $headerUrl) : ?Topic {
-        $sql = $this->connection->prepare("INSERT INTO topic (owner_id, title, content, mood, header_url) VALUES (:ownerId, :title, :content, :mood, :headerUrl)");
+
+    public static function updateHeader(int $id, array $headerFile) {
+        $file_path = __DIR__.'/../../public/images/topic/'.$id.'/';
+
+        if( isset( $headerFile ) ){
+
+            if (!is_dir($file_path)) {
+                mkdir($file_path);
+            }
+
+            // Move the file and convert it to jpg if needed
+            switch ($headerFile['type']) {
+                case 'image/png':
+                    // Convert png to jpg
+                    $tmpName = $headerFile['tmp_name'];
+                    $image = imagecreatefrompng($tmpName);
+                    imagejpeg($image, $file_path.'header.jpg', 100);
+                    imagedestroy($image);
+                    break;
+                case 'image/gif':
+                    // Convert gif to jpg
+                    $tmpName = $headerFile['tmp_name'];
+                    $image = imagecreatefromgif($tmpName);
+                    imagejpeg($image, $file_path.'header.jpg', 100);
+                    imagedestroy($image);
+                    break;
+                case 'image/webp':
+                    // Convert webp to jpg
+                    $tmpName = $headerFile['tmp_name'];
+                    $image = imagecreatefromwebp($tmpName);
+                    imagejpeg($image, $file_path.'header.jpg', 100);
+                    imagedestroy($image);
+                    break;
+                default:
+                    $tmpName = $headerFile['tmp_name'];
+                    move_uploaded_file($tmpName, $file_path.'header.jpg');
+                    break;
+            }
+        }
+    }
+
+    public static function insertTopic(int $ownerId, string $title, string $content, int $mood, array $headerFile) : ?Topic {
+        $sql = Repository::getPDO()->prepare("INSERT INTO topic (owner_id, title, content, mood) VALUES (:ownerId, :title, :content, :mood)");
         $status = $sql->execute([
             'ownerId' => $ownerId,
             'title' => $title,
             'content' => $content,
-            'mood' => $mood,
-            'headerUrl' => $headerUrl
+            'mood' => $mood
         ]);
 
         if (!$status)
             throw new Exception("Failed to insert topic");
 
-        $sql = $this->connection->query("SELECT last_insert_id();");
+        $sql = Repository::getPDO()->query("SELECT last_insert_id();");
         $id = intval($sql->fetchColumn());
-        
-        return $this->getTopicById($id);
+
+        TopicRepository::updateHeader($id, $headerFile);
+        return TopicRepository::getTopicById($id);
     }
 
-    public function editTopic(int $id, string $title, string $content, int $mood, string $headerUrl) : Topic {
-        $sql = $this->connection->prepare("UPDATE topic SET title = :title, content = :content, mood = :mood, header_url = :headerUrl WHERE id = :topicId");
+    public static function editTopic(int $id, string $title, string $content, int $mood, array $headerFile ) : Topic {
+
+        $sql = Repository::getPDO()->prepare("UPDATE topic SET title = :title, content = :content, mood = :mood WHERE id = :topicId");
         $sql->execute([
             'topicId' => $id,
             'title' => $title,
             'content' => $content,
-            'mood' => $mood,
-            'headerUrl' => $headerUrl
+            'mood' => $mood
         ]);
 
-        return $this->getTopicById($id);
+        TopicRepository::updateHeader($id, $headerFile);
+        return TopicRepository::getTopicById($id);
     }
 
-    public function deleteTopic($topicId) {
-        $sql = $this->connection->prepare("DELETE FROM topic WHERE topic.id = :topicId; DELETE FROM topic_response WHERE topic_response.topic_id = :topicId");
+    public static function deleteTopic($topicId) {
+        $sql = Repository::getPDO()->prepare("DELETE FROM topic WHERE topic.id = :topicId; DELETE FROM topic_response WHERE topic_response.topic_id = :topicId");
         $sql->execute([
             'topicId' => $topicId
         ]);
     }
 
-    public function getTopicById(int $id) : ?Topic {
-        $sql = $this->connection->prepare('SELECT * FROM topic WHERE id = :id');
+    public static function getTopicById(int $id) : ?Topic {
+        $sql = Repository::getPDO()->prepare('SELECT * FROM topic WHERE id = :id');
         $sql->execute( [
             'id'=> $id
         ] );
@@ -72,40 +113,35 @@ class TopicRepository extends Repository{
         if (!$task)
             throw new Exception("Failed to get topic");
 
-        $userRepo = new UserRepository();
+        return new Topic($task['id'], UserRepository::getUserById($task['owner_id']), $task['title'], $task['content'], $task['mood']);
+    }
 
-        return new Topic($task['id'], $userRepo->getUserById($task['owner_id']), $task['title'], $task['content'], $task['mood'], $task['header_url']);
+    public static function getTopics(int $offset = 0, int $length = 10) : array {
+        $sql = Repository::getPDO()->prepare("SELECT * FROM `topic` ORDER BY `date` DESC LIMIT ".$offset.",".$length."");
+        $sql->execute();
+        $array = $sql->fetchAll();
+        
+
+        $topicArray = [];
+        foreach ($array as $task) {
+            $topicArray[] = new Topic($task['id'], UserRepository::getUserById($task['owner_id']), $task['title'], $task['content'], $task['mood']);
+        }
+        return $topicArray;
     }
     
-    public function getTopicsByOwnerId(int $ownerId) : array {
-        $sql = $this->connection->prepare('SELECT * FROM topic WHERE owner_id = :ownerId');
+    public static function getTopicsByOwnerId(int $ownerId, int $offset = 0, int $length = 10) : array {
+        $sql = Repository::getPDO()->prepare("SELECT * FROM topic WHERE owner_id = :ownerId ORDER BY `date` DESC LIMIT ".$offset.",".$length."");
         $sql->execute([
             'ownerId'=> $ownerId
         ]);
         
         $array = $sql->fetchAll();
 
-        $userRepo = new UserRepository();
-
         $topicArray = [];
         foreach($array as $topic) {
-            $topicArray[] = new Topic($topic['id'], $userRepo->getUserById($topic['owner_id']), $topic['title'], $topic['content'], $topic['mood'], $topic['header_url']);
+            $topicArray[] = new Topic($topic['id'], UserRepository::getUserById($topic['owner_id']), $topic['title'], $topic['content'], $topic['mood']);
         }
 
-        return $topicArray;
-    }
-
-    public function getTopics() : array {
-        $sql = $this->connection->prepare("SELECT * FROM topic LIMIT 20");
-        $sql->execute();
-        $array = $sql->fetchAll();
-
-        $userRepo = new UserRepository();
-
-        $topicArray = [];
-        foreach ($array as $task) {
-            $topicArray[] = new Topic($task['id'], $userRepo->getUserById($task['owner_id']), $task['title'], $task['content'], $task['mood'], $task['header_url']);
-        }
         return $topicArray;
     }
 }

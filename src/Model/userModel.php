@@ -1,8 +1,8 @@
 <?php
 
-require_once(__DIR__.'/repository.php');
-require_once(__DIR__.'/../../util/encrypt.php');
-require_once(__DIR__.'/../../util/mailSender.php');
+require_once __DIR__.'/repository.php';
+require_once __DIR__.'/../util/encrypt.php';
+require_once __DIR__.'/../util/mailSender.php';
 
 class User {
     public int $id;
@@ -24,10 +24,10 @@ class User {
     }
 }
 
-class UserRepository extends Repository{
+class UserRepository {
 
-    public function insertUser(string $username, string $email, string $password) {
-        $sql = $this->connection->prepare( "INSERT INTO user (username, email, password, profile_url, public_key) VALUES (:username, :email, :password, :profile, :key)" );
+    public static function insertUser(string $username, string $email, string $password) {
+        $sql = Repository::getPDO()->prepare( "INSERT INTO user (username, email, password, profile_url, public_key) VALUES (:username, :email, :password, :profile, :key)" );
         $sql->execute( [
             'username' => $username,
             'email' => $email,
@@ -37,9 +37,9 @@ class UserRepository extends Repository{
         ] );
     }
 
-    public function getUserByUsernameOrEmail(string $username, string $email) : ?User {
+    public static function getUserByUsernameOrEmail(string $username, string $email) : ?User {
         
-        $sql = $this->connection->prepare("SELECT * FROM user WHERE (username = :username OR email = :email) ");
+        $sql = Repository::getPDO()->prepare("SELECT * FROM user WHERE (username = :username OR email = :email) ");
         $sql->execute( [
             'username' => $username,
             'email' => $email,
@@ -54,8 +54,8 @@ class UserRepository extends Repository{
         return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['profile_url'], $array['public_key'], $array['register_date']);
     }
 
-    public function getUser(int $nameFriend) : array{
-        $sql = $this->connection->prepare("SELECT username FROM user WHERE id = :id");
+    public static function getUser(int $nameFriend) : array{
+        $sql = Repository::getPDO()->prepare("SELECT username FROM user WHERE id = :id");
         $sql->execute( [
             'id' => $nameFriend,
         ] );
@@ -72,9 +72,9 @@ class UserRepository extends Repository{
         return $userArray;
     }
     
-    public function getUserById(int $id) : ?User {
+    public static function getUserById(int $id) : ?User {
         
-        $sql = $this->connection->prepare("SELECT * FROM user WHERE id = :id");
+        $sql = Repository::getPDO()->prepare("SELECT * FROM user WHERE id = :id");
         $sql->execute( [
             'id' => $id,
         ] );
@@ -88,8 +88,8 @@ class UserRepository extends Repository{
         return new User($array['id'], $array['username'], $array['email'], $array['password'] , $array['profile_url'], $array['public_key'], $array['register_date']);
     }
 
-    public function getUserByIdentifier(string $identifier) : ?User {
-            $sql = $this->connection->prepare("SELECT * FROM user WHERE (username = :identifier OR email = :identifier)");
+    public static function getUserByIdentifier(string $identifier) : ?User {
+            $sql = Repository::getPDO()->prepare("SELECT * FROM user WHERE (username = :identifier OR email = :identifier)");
             $sql->execute( [
                 'identifier' => $identifier,
             ] );
@@ -103,9 +103,9 @@ class UserRepository extends Repository{
             return new User($array['id'], $array['username'], $array['email'], $array['password'] , $array['profile_url'], $array['public_key'], $array['register_date']);
     }
 
-    public function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {
+    public static function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {
 
-        $sql = $this->connection->prepare("SELECT * FROM user WHERE (username = :identifier OR email = :identifier) AND password = :password");
+        $sql = Repository::getPDO()->prepare("SELECT * FROM user WHERE (username = :identifier OR email = :identifier) AND password = :password");
         $sql->execute( [
             'identifier' => $identifier,
             'password' => $password

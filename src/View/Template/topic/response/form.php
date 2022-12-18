@@ -1,17 +1,24 @@
+<script>
+    socket.on("sendmsg", function(msg){
+        document.getElementById("messages").innerHTML += msg + "<br>" ;
+    })
+    function sendmsg(){
+        socket.emit("sendmsg", document.getElementById("message").value);
+    }
+</script>
 <?php
-
     if (isset($_SESSION['userId'])) {
         ?>
             <form class="response-form" method="post" action="">
                 
-                <input type="text" class="content" name="response-content" placeholder="<?= translate("content") ?>" <?= isset($_GET["content"]) ? "value=\"".$_GET["content"]."\"" : "" ?>/>
-                <button class="submit"><?= translate("confirm") ?></button>
+                <textarea class="content" name="response-content" placeholder="<?= translate("content") ?>" id="message"><?= isset($_GET["content"]) ? $_GET["content"] : "" ?></textarea>
+                <button class="submit" onclick="sendmsg()"><?= translate("confirm") ?></button>
 
             </form>
         <?php
     } else {
         ?>
-            <a href="/login"><?= translate("login-to-respond") ?></p>
+            <a href="/login" class="link"><?= translate("login_to_respond") ?></p>
         <?php
     }
 

@@ -2,8 +2,98 @@ $primaryColor: #00818F;
 $secondaryColor: #015958;
 $tertiaryColor: #023535;
 $tgQuentin: #004F59;
-body{
+
+
+.link{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: $primaryColor;
+    margin: 1vh 1vw;
+    padding: 1.5vh 2vw;
+}
+
+
+p, span, a, h1, h2, h3, h4, h5 {
+    text-decoration: none;
+    text-align: center;
+    font-size: medium;
+    color: black;
+    vertical-align: middle;
+    margin: 0;
+}
+
+body {
     font-family: sans-serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+
+//home page css
+#header {
+    background-color: $secondaryColor;
+    width: 100%;
+    padding: 5vh 0;
+    margin: 0 0 10vh 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    & > a {
+        left: 50%;
+    }
+}
+
+#nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 90%;
+
+    &-user {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+#side-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 30vh;
+    left: 3vw;
+}
+
+.account{
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="checkbox"]{
+    height: 60px;
+    width: 500px;
+    background-color: #ff0000;
+    &:checked{
+        visibility: hidden;
+    }
+}
+
+.header-title{
+    text-align: center;
 }
 
 .home {
@@ -11,39 +101,21 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    & > * {
-        padding: 0;
-        margin: 20px 0;
-    }
-}
-.nav{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    width:100vw;
-    height:15vh;
-    position: absolute;
-    top:15%;
-    
-    
 
-}
-.link{
-    width: 8vw;
-    height:6vh;
-    background-color: $primaryColor;
-    margin: 1vh 1vw 0vh 1vw;
-    display: flex;
-    justify-content: center;
-    & > p {
-        font-size: medium;
-        
+    background-color: $tertiaryColor;
+    // overflow-x: hidden;
+    margin: 0;
+    & > nav {
+        padding: 0;
+        margin: 20px 0px 0px 0px;
     }
 }
-.friends{
-    width:10vw;
-    height: 80vh;
+
+
+
+#friends-list, #sent-friend-requests, #received-friend-requests {
+    width: 20vw;
+    min-height: 60vh;
     background-color:$tgQuentin;
    
     border: solid black 1px;
@@ -52,12 +124,48 @@ body{
         justify-content: center;
     }
 }
-.content{
-    
+
+#friends-wall {
     display: flex;
-    margin:20vh 20vw 1vh 20vw;
-    width: 60vw;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 80vw;
 }
+
+.friend, .friend-sent, .friend-received {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    &-options {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+}
+
+.user-preview {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+    width: 8vw;
+    background-color: $tgQuentin;
+    border: solid black 1px;
+    margin: 1vh 0;
+    padding: 0 1vw 0 0.25vw;
+}
+
+.profil-picture {
+    height: 8vh;
+    width: 8vh;
+    object-fit: contain;
+}
+
+.preview-username {}
+
 
 #download-button {
     color: aqua;
@@ -99,20 +207,75 @@ body{
     height : 45px;
 }
  
-#envoyer {
+.btn {
+    &-confirm {
+        background-color : white;
+        height: 60px;
+        width: 440px;
+        border-radius: 100px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+
+#create {
+    text-decoration: none;
+    color: black;
+    background-color : white;
+    height: 60px;
+    width: 500px;
+    border-radius: 100px;
+    text-align: center;
+}
+
+#change {
+    text-decoration: none;
+    color: black;
+    background-color : white;
+    height: 60px;
+    width: 500px;
+    border-radius: 100px;
+    text-align: center;
+}
+
+#forget {
+    text-decoration: none;
+    color: black;
     background-color : white;
     height: 60px;
     width: 500px;
     border-radius: 100px;
 }
 
-.remember{
-    &:label { 
-        cursor: pointer;
-        text-align: center;
-    }
+#annul {
+    text-decoration: none;
+    color: black;
+    height: 60px;
+    width: 500px;
+    border-radius: 100px;
+    text-align: center;
     &:hover{
-        color: #004F59;
+        color: white;
+    }
+}
+
+#creation {
+    background-color : white;
+    height: 60px;
+    width: 440px;
+    border-radius: 100px;
+}
+
+
+.remember{
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    text-align: center;
+    &:label { 
+        display: flex; 
+        cursor: pointer;
     }
 }
 
@@ -151,33 +314,25 @@ body{
     display: none;
 }
 
-//home page css
-#header {
-    background-color: $secondaryColor;
-    width: 100vw;
-    height: 25vh;
-    margin: 0vh;
-    display:flex;
-    justify-content: center;
-    & > a {
-        left: 50%;
-    }
-}
-
-.post{
-    background-color:$tgQuentin;
+#posts-wall {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
     width: 45vw;
-    height: fit-content;
-    margin-left: 2.5vw;
-    & > * {
-        padding-left: 1vw;
-    }
+    // height: 90vh;
+    // overflow-y: scroll;
+
+    background-color:$tgQuentin;
+
+    // margin-left: 12vw;
+    // & > * {
+    //     padding-left: 1vw;
+    // }
 }
-.rod{
-    margin-left: 1vw;
-    margin-right: 1vw;
+.rod {
     background-color:$primaryColor;
-    width:42vw;
+    width: 95%;
     height:0.5vh;
 }
 
@@ -189,21 +344,38 @@ body{
     padding: 15px 30px;
 }
 .flex-items {
+    display:flex;
+    flex-direction: column;
     margin: 10px;
     text-align: center;
     font-size: 40px;
     line-height: 1.5;
 }
-.home {
-    margin: 0vh;
-    overflow-x: hidden;
-    background-color: $tertiaryColor;
+.flex-items2 {
+    display:flex;
+    flex-direction: column;
+    margin: 10px;
+    text-align: left;
+    font-size: 40px;
+    line-height: 1.5;
 }
-.profil_picture{
-    height: 8vh;
+
+.remember {
+    margin: 10px;
+    text-align: center;
+    font-size: 40px;
+    line-height: 1.5;
+    color: white;
+}
+
+.topic-preview > a >img{
+    //size:80px;
+    width:500%;
 }
 
 //Friend page css 
 .user_frame {
     background-color: $tgQuentin;
 }
+
+

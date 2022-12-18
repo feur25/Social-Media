@@ -2,8 +2,7 @@
 
 require_once __DIR__.'/../src/Controller/topicController.php';
 
-$controller = new TopicController();
-$controller->edit_page();
+TopicController::edit_page();
 
 
 ?>

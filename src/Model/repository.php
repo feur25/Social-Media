@@ -2,10 +2,13 @@
 
 class Repository {
 
-    public PDO $connection;
+    private static PDO $connection;
 
-    public function __construct() {
-        $this->connection = new PDO("mysql:dbname=social-media;host=localhost", "root", "");
+    public static function getPDO(): PDO {
+        if (!isset(self::$connection)) {
+            self::$connection = new PDO("mysql:dbname=social-media;host=localhost", "root", "");
+        }
+        return self::$connection;
     }
 
 }

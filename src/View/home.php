@@ -1,57 +1,27 @@
 <?php
 
-require_once __DIR__."/../../util/translate.php";
-
-ob_start();
+require_once __DIR__."/../util/translate.php";
+require_once __DIR__.'/../Model/topicModel.php';
+require_once __DIR__.'/../Controller/topicController.php';
 
 ?>
 
-<body>
-    <div class="home">
-        <div class="nav">
-                <div class="profil_picture">
-                </div>
-                <div class="link">
-                    <p> Main </p>
-                </div>
-                <div class="link">
-                    <p>Friends</p>
-                    </div>
-                <div class="link">
-                    <p>Messages</p>
-                    </div>
-                <div class="link">
-                    <p>Contact</p>
-                </div>
-        </div>
-        <div class="content">
-            
-            <div class="friends">
-                <p>bouh</p>
-                <p>bouh</p>
-            
-            </div>
-            <div class="post">
-                
-                <div class="top-bost"> 
-                    <p>bouh</p>
-                </div>
-                <div class="rod">
-                </div>      
-                <div class="post-content">
-                    <p>bouh</p>
-                </div>
-            </div>
-        
-        </div>
+<div class="home">
+    
+    <div id="side-nav">
+        <?php include __DIR__."/Template/friend/list.php"; ?>
     </div>
-</body>
 
+    <div id="posts-wall">
+        
+        <div class="top-post"> 
+            <p>bouh</p>
+        </div>
 
+        <div class="rod"></div>
 
-<?php
+        <div id="topics-list"></div>
+        
+    </div>
 
-$page_contents = ob_get_clean();
-require(__DIR__.'/Template/page-layout.php');
-
-?>
+</div>

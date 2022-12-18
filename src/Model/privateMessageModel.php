@@ -1,8 +1,8 @@
 <?php
 
-require_once(__DIR__.'/repository.php');
-require_once(__DIR__.'/userModel.php');
-require_once(__DIR__.'/../../util/encrypt.php');
+require_once __DIR__.'/repository.php';
+require_once __DIR__.'/userModel.php';
+require_once __DIR__.'/../util/encrypt.php';
 
 class PrivateMessage {
     public int $id;
@@ -20,10 +20,10 @@ class PrivateMessage {
     }
 }
 
-class PrivateMessageRepository extends Repository {
+class PrivateMessageRepository {
 
 
-    public function sendMessage(User $sender, User $receiver, string $content) {
+    public static function sendMessage(User $sender, User $receiver, string $content) {
 
         // Encrypt the message using the sender's public key
         $encryptedSenderMessage = $content;
@@ -31,7 +31,7 @@ class PrivateMessageRepository extends Repository {
         // Encrypt the message using the receiver's public key
         $encryptedReceiverMessage = $content;
 
-        $sql = $this->connection->prepare( "INSERT INTO private_message (sender_id, receiver_id, sender_message, receiver_message) VALUES (:senderId, :receiverId, :senderMessage, :receiverMessage)" );
+        $sql = Repository::getPDO()->prepare( "INSERT INTO private_message (sender_id, receiver_id, sender_message, receiver_message) VALUES (:senderId, :receiverId, :senderMessage, :receiverMessage)" );
         $sql->execute( [
             'senderId' => $sender->id,
             'receiverId' => $receiver->id,
@@ -40,9 +40,9 @@ class PrivateMessageRepository extends Repository {
         ] );
     }
 
-    public function getMessages(int $username, int $email) : ?User {
+    public static function getMessages(int $username, int $email) : ?User {
         
-        $sql = $this->connection->prepare("SELECT * FROM users WHERE (username = :username OR email = :email) ");
+        $sql = Repository::getPDO()->prepare("SELECT * FROM users WHERE (username = :username OR email = :email) ");
         $sql->execute( [
             'username' => $username,
             'email' => $email,
@@ -57,9 +57,9 @@ class PrivateMessageRepository extends Repository {
         return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['date']);
     }
 
-    // public function getUserById(int $id) : ?User {
+    // public static function getUserById(int $id) : ?User {
         
-    //     $sql = $this->connection->prepare("SELECT * FROM users WHERE id = :id");
+    //     $sql = Repository::getPDO()->prepare("SELECT * FROM users WHERE id = :id");
     //     $sql->execute( [
     //         'id' => $id,
     //     ] );
@@ -73,9 +73,9 @@ class PrivateMessageRepository extends Repository {
     //     return new User($array['id'], $array['username'], $array['email'], $array['password'], $array['date']);
     // }
 
-    // public function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {
+    // public static function getUserByIdentifierAndPassword(string $identifier, string $password) : ?User {
 
-    //     $sql = $this->connection->prepare("SELECT * FROM users WHERE (username = :identifier OR email = :identifier) AND password = :password");
+    //     $sql = Repository::getPDO()->prepare("SELECT * FROM users WHERE (username = :identifier OR email = :identifier) AND password = :password");
     //     $sql->execute( [
     //         'identifier' => $identifier,
     //         'password' => $password
